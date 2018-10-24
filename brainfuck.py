@@ -1,4 +1,5 @@
 import argparse
+import re
 
 commands = "+-><[].,#!"
 
@@ -138,14 +139,19 @@ def main():
             print("Please provide a Brainfuck file with extension .b")
             return
 
-    bf_input = ""
+    brain_lines = []
+    brainfuck = ""
     try:
         with open(args.filename, "r") as bf:
-            bf_input = bf.readline()
-            interpret(bf_input)
+            for line in bf:
+                filtered_line = re.sub("[^+-><\[\].,#!]", "", line)
+                brain_lines.append(filtered_line)
     except FileNotFoundError:
         print("Specified Brainfuck file not found")
         return
+
+    brainfuck = "".join(brain_lines)
+    interpret(brainfuck)
 
 
 if __name__ == "__main__":

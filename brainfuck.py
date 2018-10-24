@@ -2,7 +2,7 @@ import argparse
 
 commands = "+-><[].,#!"
 
-
+# Checks if there are a matching number of open and close brackets
 def do_brackets_match(input):
     stack = []
     for c in input:
@@ -16,6 +16,7 @@ def do_brackets_match(input):
     return not stack
 
 
+# Returns a map of corresponding open and close [] positions, going both ways
 def map_brackets(input):
     brackets = {}
     stack = []
@@ -24,8 +25,8 @@ def map_brackets(input):
             stack.append(i)
         elif input[i] == "]":
             v = stack.pop()
-            bm[v] = i
-            bm[i] = v
+            brackets[v] = i
+            brackets[i] = v
     return brackets
 
 
@@ -37,38 +38,72 @@ def interpret(s):
         return
 
     bracket_map = map_brackets(s)
-    ptr = 0
-    cells = [0]
-    i = 0
+
+    ptr = 0  # Current cell index
+    cells = [0]  # Array that holds cell values
+    i = 0  # Position in brainfuck code
+
+    # Main evaluation loop
     while i < len(s):
         c = s[i]
+
+        # The + command increments the value of the cell indicated by the pointer
+        # If that cell was already at its maximum value, it will assume its minimum
         if c == "+":
             cells[ptr] += 1 if cells[ptr] < 255 else 0
+
+        # The - command decrements the value of the cell indicated by the pointer
+        # If that cell was already at its minimum value, it will assume its maximum
         elif c == "-":
             cells[ptr] -= 1 if cells[ptr] > 0 else 255
+
+        # The > command moves the pointer to the next cell to the right
+        # If we reach the end of the cells list, we append an empty cell to the list
         elif c == ">":
             ptr += 1
             if ptr == len(cells):
                 cells.append(0)
+
+        # The < command moves the pointer to the next cell to the left.
+        # If the pointer was already at the leftmost cell, nothing happens.
         elif c == "<":
-            ptr -= 1 if ptr > 0 else 0
+            if ptr > 0:
+                ptr -= 1
+
+        # The . command outputs the value of the cell indicated by the pointer.
+        # If that value will not fit in a byte it may first be reduced modulo 256.
         elif c == ".":
             if cells[ptr] == 10:
                 print("\n")
             else:
-                print(chr(cells[ptr]), end="")
+                print(chr(cells[ptr] % 256), end="")
+
+        # The , command requests one byte of input, and sets the cell indicated by the pointer to the value received, if any.
         elif c == ",":
             cells[ptr] = ord(input())
+
+        # The [ command checks the value of the cell indicated by the pointer.
+        # If its value is zero, control passes not to the next command,
+        # but to the command following the matching ']' command.
         elif c == "[":
             if cells[ptr] == 0:
                 i = bracket_map[i]
+
+        # The ] command checks the value of the cell indicated by the pointer,
+        # and if its value is nonzero, control passes not to the next command,
+        # but to the command following the matching '[' command.
         elif c == "]":
             if cells[ptr] != 0:
                 i = bracket_map[i]
+
+        # The # command is used to print out the current state of the program
+        # for debugging purposes
         elif c == "#":
             print("Ptr Location:", ptr)
             print("Cells -", cells)
             print("Bracket Map -", bracket_map)
+
+        # Once the command has been evaluated, move on to the next command
         i += 1
 
 

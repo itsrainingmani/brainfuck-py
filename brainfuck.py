@@ -3,7 +3,7 @@ import argparse
 commands = "+-><[].,#!"
 
 
-def is_bounds_valid(input):
+def brackets_match(input):
     stack = []
     for c in input:
         if c == "[":
@@ -16,7 +16,7 @@ def is_bounds_valid(input):
     return not stack
 
 
-def map_bounds(input, bm):
+def map_brackets(input, bm):
     stack = []
     for i in range(len(input)):
         if input[i] == "[":
@@ -24,69 +24,51 @@ def map_bounds(input, bm):
         elif input[i] == "]":
             v = stack.pop()
             bm[v] = i
+            bm[i] = v
 
 
 def interpret(s):
 
     # Check if the program has a matching number of '[' and ']' characters
-    if not is_bounds_valid(s):
+    if not brackets_match(s):
         print("The input does not have a matching set of []. Exiting...")
         return
     else:
         bracket_map = {}
-        map_bounds(s, bracket_map)
+        map_brackets(s, bracket_map)
         # print(bracket_map)
-        bracket_stack = []
         ptr = 0
-        cells = [0 for i in range(30000)]
+        cells = [0]
         i = 0
         while i < len(s):
-            if s[i] not in commands:
-                i += 1
-            else:
-                if s[i] == "+":
-                    cells[ptr] += 1
-                    i += 1
-                elif s[i] == "-":
-                    if cells[ptr] > 0:
-                        cells[ptr] -= 1
-                    i += 1
-                elif s[i] == ">":
-                    ptr += 1
-                    i += 1
-                elif s[i] == "<":
-                    if ptr > 0:
-                        ptr -= 1
-                    i += 1
-                elif s[i] == ".":
-                    if cells[ptr] == 10:
-                        print("\n")
-                    else:
-                        print(chr(cells[ptr]), end="")
-                    i += 1
-                elif s[i] == ",":
-                    ioval = input()
-                    cells[ptr] = ord(ioval)
-                    i += 1
-                elif s[i] == "[":
-                    if cells[ptr] == 0:
-                        i = bracket_map[i] + 1
-                        if len(bracket_stack) > 0:
-                            bracket_stack.pop()
-                    else:
-                        if (i, bracket_map[i]) not in bracket_stack:
-                            bracket_stack.append((i, bracket_map[i]))
-                        i += 1
-                elif s[i] == "]":
-                    if cells[ptr] > 0:
-                        i = bracket_stack[-1][0]
-                    else:
-                        if len(bracket_stack) > 0:
-                            bracket_stack.pop()
-                        i += 1
-                elif s[i] == "#":
-                    print("Ptr Location:", ptr, cells[0:10])
-                    i += 1
+            c = s[i]
+            if c == "+":
+                cells[ptr] += 1 if cells[ptr] < 255 else 0
+            elif c == "-":
+                cells[ptr] -= 1 if cells[ptr] > 0 else 255
+            elif c == ">":
+                ptr += 1
+                if ptr == len(cells):
+                    cells.append(0)
+            elif c == "<":
+                ptr -= 1 if ptr > 0 else 0
+            elif c == ".":
+                if cells[ptr] == 10:
+                    print("\n")
+                else:
+                    print(chr(cells[ptr]), end="")
+            elif c == ",":
+                cells[ptr] = ord(input())
+            elif c == "[":
+                if cells[ptr] == 0:
+                    i = bracket_map[i]
+            elif c == "]":
+                if cells[ptr] != 0:
+                    i = bracket_map[i]
+            elif c == "#":
+                print("Ptr Location:", ptr, cells[0:10])
+                print(bracket_map)
+            i += 1
 
 
 def main():

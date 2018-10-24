@@ -33,42 +33,43 @@ def interpret(s):
     if not brackets_match(s):
         print("The input does not have a matching set of []. Exiting...")
         return
-    else:
-        bracket_map = {}
-        map_brackets(s, bracket_map)
-        # print(bracket_map)
-        ptr = 0
-        cells = [0]
-        i = 0
-        while i < len(s):
-            c = s[i]
-            if c == "+":
-                cells[ptr] += 1 if cells[ptr] < 255 else 0
-            elif c == "-":
-                cells[ptr] -= 1 if cells[ptr] > 0 else 255
-            elif c == ">":
-                ptr += 1
-                if ptr == len(cells):
-                    cells.append(0)
-            elif c == "<":
-                ptr -= 1 if ptr > 0 else 0
-            elif c == ".":
-                if cells[ptr] == 10:
-                    print("\n")
-                else:
-                    print(chr(cells[ptr]), end="")
-            elif c == ",":
-                cells[ptr] = ord(input())
-            elif c == "[":
-                if cells[ptr] == 0:
-                    i = bracket_map[i]
-            elif c == "]":
-                if cells[ptr] != 0:
-                    i = bracket_map[i]
-            elif c == "#":
-                print("Ptr Location:", ptr, cells[0:10])
-                print(bracket_map)
-            i += 1
+
+    bracket_map = {}
+    map_brackets(s, bracket_map)
+    # print(bracket_map)
+    ptr = 0
+    cells = [0]
+    i = 0
+    while i < len(s):
+        c = s[i]
+        if c == "+":
+            cells[ptr] += 1 if cells[ptr] < 255 else 0
+        elif c == "-":
+            cells[ptr] -= 1 if cells[ptr] > 0 else 255
+        elif c == ">":
+            ptr += 1
+            if ptr == len(cells):
+                cells.append(0)
+        elif c == "<":
+            ptr -= 1 if ptr > 0 else 0
+        elif c == ".":
+            if cells[ptr] == 10:
+                print("\n")
+            else:
+                print(chr(cells[ptr]), end="")
+        elif c == ",":
+            cells[ptr] = ord(input())
+        elif c == "[":
+            if cells[ptr] == 0:
+                i = bracket_map[i]
+        elif c == "]":
+            if cells[ptr] != 0:
+                i = bracket_map[i]
+        elif c == "#":
+            print("Ptr Location:", ptr)
+            print("Cells -", cells)
+            print("Bracket Map -"bracket_map)
+        i += 1
 
 
 def main():

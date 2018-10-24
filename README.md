@@ -1,5 +1,7 @@
 # Simple Interpreter for the Brainfuck esolang written in Python
 
+![alt text](https://travis-ci.org/tsmanikandan/brainfuck-py.svg?branch=master "Travis CI build status")
+
 ```text
            _                 _               _                     _              _                   _         _                         _               _        
           / /\              /\ \            / /\                  /\ \           /\ \     _          /\ \      /\_\                     /\ \             /\_\      

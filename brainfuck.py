@@ -53,7 +53,7 @@ def interpret(s):
 
     # Check if the program has a matching number of '[' and ']' characters
     if not is_bounds_valid(s):
-        print("The input does not have a matching set of []. Exiting...")
+        print("The input does not have a matching set of []. Exiting....")
         return
     else:
         bracket_map = {}

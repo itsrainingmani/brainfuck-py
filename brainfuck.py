@@ -68,7 +68,7 @@ def interpret(s):
         elif c == "#":
             print("Ptr Location:", ptr)
             print("Cells -", cells)
-            print("Bracket Map -"bracket_map)
+            print("Bracket Map -", bracket_map)
         i += 1
 
 

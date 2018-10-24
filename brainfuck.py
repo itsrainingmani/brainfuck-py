@@ -16,7 +16,8 @@ def do_brackets_match(input):
     return not stack
 
 
-def map_brackets(input, bm):
+def map_brackets(input):
+    brackets = {}
     stack = []
     for i in range(len(input)):
         if input[i] == "[":
@@ -25,6 +26,7 @@ def map_brackets(input, bm):
             v = stack.pop()
             bm[v] = i
             bm[i] = v
+    return brackets
 
 
 def interpret(s):
@@ -34,9 +36,7 @@ def interpret(s):
         print("The input does not have a matching set of []. Exiting...")
         return
 
-    bracket_map = {}
-    map_brackets(s, bracket_map)
-    # print(bracket_map)
+    bracket_map = map_brackets(s)
     ptr = 0
     cells = [0]
     i = 0

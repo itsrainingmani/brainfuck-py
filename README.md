@@ -1,4 +1,4 @@
-# Simple Interpreter for the Brainfuck esolang written in Python
+# Brainfuck Interpreter in Python
 
 
 ```text
@@ -15,7 +15,15 @@
   \/_____________/  \/_/    \_\/    \_\___\     /____/_/ \/_________/    \/_/     \/_/       \/_/            \/_________/       \/____________/  \/_/      \_\_\   
 ```
 
-## Brainfuck Language Reference:
+## Usage
+
+To evaluate a brainfuck code file with extension _.b_ , run the following command in your shell
+
+```shell
+$ python brainfuck.py <filename>
+```
+
+## Brainfuck Command List
 
 There are eight brainfuck commands.
 
@@ -27,3 +35,10 @@ There are eight brainfuck commands.
 * The ] command checks the value of the cell indicated by the pointer, and if its value is nonzero, control passes not to the next command, but to the command following the matching '[' command.
 * The . command outputs the value of the cell indicated by the pointer. If that value will not fit in a byte it may first be reduced modulo 256.
 * The , command requests one byte of input, and sets the cell indicated by the pointer to the value received, if any.
+
+## References
+
+The following links were highly useful in developing this interpreter
+
+* [Brainfuck Esolang wiki](https://esolangs.org/wiki/brainfuck)
+* [Some Brainfuck fluff by Daniel Cristofani](http://www.hevanet.com/cristofd/brainfuck/)

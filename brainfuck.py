@@ -3,7 +3,7 @@ import argparse
 commands = "+-><[].,#!"
 
 
-def brackets_match(input):
+def do_brackets_match(input):
     stack = []
     for c in input:
         if c == "[":
@@ -30,7 +30,7 @@ def map_brackets(input, bm):
 def interpret(s):
 
     # Check if the program has a matching number of '[' and ']' characters
-    if not brackets_match(s):
+    if not do_brackets_match(s):
         print("The input does not have a matching set of []. Exiting...")
         return
 

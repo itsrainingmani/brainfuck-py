@@ -1,28 +1,5 @@
 import argparse
 
-# BRAINFUCK LANGUAGE COMMAND REFERENCE
-
-# The '+' command increments the value of the cell indicated by the pointer
-
-# The '-' command decrements the value of the cell indicated by the pointer
-
-# The '>' command moves the pointer to the next cell to the right
-
-# The '<' command moves the pointer to the next cell to the left
-
-# The '[' command checks the value of the cell indicated by the pointer and,
-#       if its value is zero, control passes not to the next command, but
-#       to the command following the matching ']' command.
-
-# The ']' command checks the value of the cell indicated by the pointer and,
-#       if its value is nonzero, control passes not to the next command, but
-#       to the command following the matching '[' command.
-
-# The '.' command outputs the value of the cell indicated by the pointer
-
-# The ',' command requests one byte of input and sets the cell indicated by
-#       the pointer to the value received, if any
-
 commands = "+-><[].,#!"
 
 
@@ -53,7 +30,7 @@ def interpret(s):
 
     # Check if the program has a matching number of '[' and ']' characters
     if not is_bounds_valid(s):
-        print("The input does not have a matching set of []. Exiting....")
+        print("The input does not have a matching set of []. Exiting...")
         return
     else:
         bracket_map = {}

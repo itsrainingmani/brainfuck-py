@@ -1,5 +1,6 @@
 import argparse
 import re
+import sys
 
 commands = "+-><[].,#!"
 
@@ -51,12 +52,18 @@ def interpret(s):
         # The + command increments the value of the cell indicated by the pointer
         # If that cell was already at its maximum value, it will assume its minimum
         if c == "+":
-            cells[ptr] += 1 if cells[ptr] < 255 else 0
+            if cells[ptr] == 255:
+                cells[ptr] = 0
+            else:
+                cells[ptr] += 1
 
         # The - command decrements the value of the cell indicated by the pointer
         # If that cell was already at its minimum value, it will assume its maximum
         elif c == "-":
-            cells[ptr] -= 1 if cells[ptr] > 0 else 255
+            if cells[ptr] > 0:
+                cells[ptr] -= 1
+            else:
+                cells[ptr] = 255
 
         # The > command moves the pointer to the next cell to the right
         # If we reach the end of the cells list, we append an empty cell to the list
@@ -77,9 +84,10 @@ def interpret(s):
             if cells[ptr] == 10:
                 print("\n")
             else:
-                print(chr(cells[ptr] % 256), end="")
+                sys.stdout.write(chr(cells[ptr] % 256))
 
-        # The , command requests one byte of input, and sets the cell indicated by the pointer to the value received, if any.
+        # The , command requests one byte of input,
+        # and sets the cell indicated by the pointer to the value received, if any.
         elif c == ",":
             cells[ptr] = ord(input())
 
@@ -109,23 +117,6 @@ def interpret(s):
 
 
 def main():
-    print(
-        """
-           _                 _               _                     _              _                   _         _                         _               _        
-          / /\              /\ \            / /\                  /\ \           /\ \     _          /\ \      /\_\                     /\ \             /\_\      
-         / /  \            /  \ \          / /  \                 \ \ \         /  \ \   /\_\       /  \ \    / / /         _          /  \ \           / / /  _   
-        / / /\ \          / /\ \ \        / / /\ \                /\ \_\       / /\ \ \_/ / /      / /\ \ \   \ \ \__      /\_\       / /\ \ \         / / /  /\_\ 
-       / / /\ \ \        / / /\ \_\      / / /\ \ \              / /\/_/      / / /\ \___/ /      / / /\ \_\   \ \___\    / / /      / / /\ \ \       / / /__/ / / 
-      / / /\ \_\ \      / / /_/ / /     / / /  \ \ \            / / /        / / /  \/____/      / /_/_ \/_/    \__  /   / / /      / / /  \ \_\     / /\_____/ /  
-     / / /\ \ \___\    / / /__\/ /     / / /___/ /\ \          / / /        / / /    / / /      / /____/\       / / /   / / /      / / /    \/_/    / /\_______/   
-    / / /  \ \ \__/   / / /_____/     / / /_____/ /\ \        / / /        / / /    / / /      / /\____\/      / / /   / / /      / / /            / / /\ \ \      
-   / / /____\_\ \    / / /\ \ \      / /_________/\ \ \   ___/ / /__      / / /    / / /      / / /           / / /___/ / /      / / /________    / / /  \ \ \     
-  / / /__________\  / / /  \ \ \    / / /_       __\ \_\ /\__\/_/___\    / / /    / / /      / / /           / / /____\/ /      / / /_________\  / / /    \ \ \    
-  \/_____________/  \/_/    \_\/    \_\___\     /____/_/ \/_________/    \/_/     \/_/       \/_/            \/_________/       \/____________/  \/_/      \_\_\   
-                                                                                                                                                                  
-    """
-    )
-
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", help="The brainfuck file to interpret")
     args = parser.parse_args()
@@ -149,6 +140,23 @@ def main():
     except FileNotFoundError:
         print("Specified Brainfuck file not found")
         return
+
+    print(
+        """
+           _                 _               _                     _              _                   _         _                         _               _        
+          / /\              /\ \            / /\                  /\ \           /\ \     _          /\ \      /\_\                     /\ \             /\_\      
+         / /  \            /  \ \          / /  \                 \ \ \         /  \ \   /\_\       /  \ \    / / /         _          /  \ \           / / /  _   
+        / / /\ \          / /\ \ \        / / /\ \                /\ \_\       / /\ \ \_/ / /      / /\ \ \   \ \ \__      /\_\       / /\ \ \         / / /  /\_\ 
+       / / /\ \ \        / / /\ \_\      / / /\ \ \              / /\/_/      / / /\ \___/ /      / / /\ \_\   \ \___\    / / /      / / /\ \ \       / / /__/ / / 
+      / / /\ \_\ \      / / /_/ / /     / / /  \ \ \            / / /        / / /  \/____/      / /_/_ \/_/    \__  /   / / /      / / /  \ \_\     / /\_____/ /  
+     / / /\ \ \___\    / / /__\/ /     / / /___/ /\ \          / / /        / / /    / / /      / /____/\       / / /   / / /      / / /    \/_/    / /\_______/   
+    / / /  \ \ \__/   / / /_____/     / / /_____/ /\ \        / / /        / / /    / / /      / /\____\/      / / /   / / /      / / /            / / /\ \ \      
+   / / /____\_\ \    / / /\ \ \      / /_________/\ \ \   ___/ / /__      / / /    / / /      / / /           / / /___/ / /      / / /________    / / /  \ \ \     
+  / / /__________\  / / /  \ \ \    / / /_       __\ \_\ /\__\/_/___\    / / /    / / /      / / /           / / /____\/ /      / / /_________\  / / /    \ \ \    
+  \/_____________/  \/_/    \_\/    \_\___\     /____/_/ \/_________/    \/_/     \/_/       \/_/            \/_________/       \/____________/  \/_/      \_\_\   
+                                                                                                                                                                  
+    """
+    )
 
     brainfuck = "".join(brain_lines)
     interpret(brainfuck)

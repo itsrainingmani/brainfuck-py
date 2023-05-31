@@ -131,6 +131,17 @@ def interpret(s):
 
         # Once the command has been evaluated, move on to the next command
         i += 1
+        
+def repl():
+    print("Welcome to the Brainfuck REPL")
+    print("Here you can enter simple Brainfuck code and see the output immediately")
+    
+    try:
+        while True:
+            brains = input('> ')
+            print(interpret(brains))
+    except KeyboardInterrupt:
+        print("\nExiting REPL ... ")
 
 
 def main():
@@ -146,21 +157,19 @@ def main():
         print(f"Please provide a Brainfuck file with extension .b | {f}")
         return
 
-    brain_lines = []
-    brainfuck = ""
+    input_lines = []
     try:
         with open(args.filename, "r") as bf:
             for line in bf:
-                filtered_line = re.sub("[^+-><\[\].,#!]", "", line)
-                brain_lines.append(filtered_line)
+                input_lines.append(line)
     except FileNotFoundError:
         print(f"Specified Brainfuck file {f} not found")
         return
     except PermissionError:
-        print(f"Do not have permission to read the file - {f}")
+        print(f"Do not have permission to read file - {f}")
+        return
 
-    brainfuck = "".join(brain_lines)
-    interpret(brainfuck)
+    interpret("".join(input_lines))
 
 
 if __name__ == "__main__":

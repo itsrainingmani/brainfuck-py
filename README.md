@@ -1,5 +1,7 @@
 # brainfuck-py
 
+[![Run on Repl.it](https://replit.com/badge/github/itsrainingmani/brainfuck-py)](https://replit.com/new/github/itsrainingmani/brainfuck-py)
+
 Simple brainfuck interpreter written in Python.
 
 ## What is Brainfuck

@@ -26,6 +26,16 @@ To evaluate a brainfuck code file with extension _.b_ , run the following comman
 poetry run interpret <filename>
 ```
 
+To use the built-in Brainfuck REPL, run the following command
+
+```shell
+$ poetry run repl
+
+Welcome to the Brainfuck REPL
+Here you can enter simple Brainfuck code and see the output immediately
+> 
+```
+
 ## Instruction List
 
 There are eight brainfuck instructions.

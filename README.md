@@ -23,7 +23,7 @@ as it was not meant or made for designing actual software but to challenge the b
 To evaluate a brainfuck code file with extension _.b_ , run the following command in your shell
 
 ```shell
-python brainfuck.py <filename>
+poetry run interpret <filename>
 ```
 
 ## Instruction List

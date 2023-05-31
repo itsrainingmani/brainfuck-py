@@ -51,7 +51,7 @@ def map_brackets(input):
     return brackets
 
 
-def interpret(s):
+def interpret(s: str, debug: bool):
     if not do_brackets_match(s):
         print("The input does not have a matching set of []. Exiting...")
         return
@@ -124,14 +124,15 @@ def interpret(s):
 
         # The # command is used to print out the current state of the program
         # for debugging purposes
-        elif c == "#":
+        elif debug == True or c == "#":
             print("Ptr Location:", ptr)
             print("Cells -", cells)
             print("Bracket Map -", bracket_map)
 
         # Once the command has been evaluated, move on to the next command
         i += 1
-        
+
+
 def repl():
     print("Welcome to the Brainfuck REPL")
     print("Here you can enter simple Brainfuck code and see the output immediately")
@@ -150,6 +151,7 @@ def main():
         epilog='Good luck and may your Brain remain unscrambled'
     )
     parser.add_argument("filename", help="The brainfuck file to interpret")
+    parser.add_argument('-d', '--debug', action='store_true', help="run interpreter in debug mode", dest='debug')
     args = parser.parse_args()
 
     f = args.filename
@@ -169,7 +171,9 @@ def main():
         print(f"Do not have permission to read file - {f}")
         return
 
-    interpret("".join(input_lines))
+    if args.debug:
+        print("Running in Debug Mode")
+    interpret("".join(input_lines), debug=args.debug)
 
 
 if __name__ == "__main__":

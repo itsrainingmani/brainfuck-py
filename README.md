@@ -1,17 +1,21 @@
-# Brainfuck Interpreter in Python
+# brainfuck-py
 
-```text
-           _                 _               _                     _              _                   _         _                         _               _
-          / /\              /\ \            / /\                  /\ \           /\ \     _          /\ \      /\_\                     /\ \             /\_\
-         / /  \            /  \ \          / /  \                 \ \ \         /  \ \   /\_\       /  \ \    / / /         _          /  \ \           / / /  _
-        / / /\ \          / /\ \ \        / / /\ \                /\ \_\       / /\ \ \_/ / /      / /\ \ \   \ \ \__      /\_\       / /\ \ \         / / /  /\_\
-       / / /\ \ \        / / /\ \_\      / / /\ \ \              / /\/_/      / / /\ \___/ /      / / /\ \_\   \ \___\    / / /      / / /\ \ \       / / /__/ / /
-      / / /\ \_\ \      / / /_/ / /     / / /  \ \ \            / / /        / / /  \/____/      / /_/_ \/_/    \__  /   / / /      / / /  \ \_\     / /\_____/ /
-     / / /\ \ \___\    / / /__\/ /     / / /___/ /\ \          / / /        / / /    / / /      / /____/\       / / /   / / /      / / /    \/_/    / /\_______/
-    / / /  \ \ \__/   / / /_____/     / / /_____/ /\ \        / / /        / / /    / / /      / /\____\/      / / /   / / /      / / /            / / /\ \ \
-   / / /____\_\ \    / / /\ \ \      / /_________/\ \ \   ___/ / /__      / / /    / / /      / / /           / / /___/ / /      / / /________    / / /  \ \ \
-  / / /__________\  / / /  \ \ \    / / /_       __\ \_\ /\__\/_/___\    / / /    / / /      / / /           / / /____\/ /      / / /_________\  / / /    \ \ \
-  \/_____________/  \/_/    \_\/    \_\___\     /____/_/ \/_________/    \/_/     \/_/       \/_/            \/_________/       \/____________/  \/_/      \_\_\
+Simple brainfuck interpreter written in Python.
+
+## What is Brainfuck
+
+From [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
+
+```quote
+Brainfuck is an esoteric programming language created in 1993 by Urban Müller.
+
+Notable for its extreme minimalism, the language consists of only eight simple commands, a data pointer and an instruction pointer. 
+While it is fully Turing complete, it is not intended for practical use, but to challenge and amuse programmers. 
+Brainfuck requires one to break commands into microscopic steps.
+
+The language's name is a reference to the slang term brainfuck, 
+which refers to things so complicated or unusual that they exceed the limits of one's understanding, 
+as it was not meant or made for designing actual software but to challenge the boundaries of computer programming.
 ```
 
 ## Usage
@@ -22,22 +26,26 @@ To evaluate a brainfuck code file with extension _.b_ , run the following comman
 $ python brainfuck.py <filename>
 ```
 
-## Brainfuck Command List
+## Instruction List
 
-There are eight brainfuck commands.
+There are eight brainfuck instructions.
 
-* The + command increments (increases by one) the value of the cell indicated by the pointer. If that cell was already at its maximum value, it may (or may not) assume its minimum value.
-* The - command decrements (decreases by one) the value of the cell indicated by the pointer. If that cell was already at its minimum value, it may (or may not) assume its maximum value.
-* The > command moves the pointer to the next cell to the right. If the pointer was already at the rightmost cell (if any) the results are unpredictable.
-* The < command moves the pointer to the next cell to the left. If the pointer was already at the leftmost cell, the results are unpredictable.
-* The [ command checks the value of the cell indicated by the pointer, and if its value is zero, control passes not to the next command, but to the command following the matching ']' command.
-* The ] command checks the value of the cell indicated by the pointer, and if its value is nonzero, control passes not to the next command, but to the command following the matching '[' command.
-* The . command outputs the value of the cell indicated by the pointer. If that value will not fit in a byte it may first be reduced modulo 256.
-* The , command requests one byte of input, and sets the cell indicated by the pointer to the value received, if any.
+| Instruction | Description                                                                                            |
+|-------------|--------------------------------------------------------------------------------------------------------|
+| >           | Increment the data pointer by one (to point to the next cell to the right).                            |
+| <           | Decrement the data pointer by one (to point to the next cell to the left).                             |
+| +           | Increment the byte at the data pointer by one.                                                         |
+| -           | Decrement the byte at the data pointer by one.                                                         |
+| .           | Output the byte at the data pointer.                                                                   |
+| ,           | Accept one byte of input, storing its value in the byte at the data pointer.                           |
+| [           | If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command. |
+| ]           | If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching [ command. |
+
 
 ## References
 
 The following links were highly useful in developing this interpreter
 
+* [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck)
 * [Brainfuck Esolang wiki](https://esolangs.org/wiki/brainfuck)
 * [Some Brainfuck fluff by Daniel Cristofani](http://www.hevanet.com/cristofd/brainfuck/)

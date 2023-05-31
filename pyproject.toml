@@ -16,3 +16,6 @@ black = "18.9b0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+interpret = "brainfuck_py.interpreter:main"

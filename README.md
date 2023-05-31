@@ -23,7 +23,7 @@ as it was not meant or made for designing actual software but to challenge the b
 To evaluate a brainfuck code file with extension _.b_ , run the following command in your shell
 
 ```shell
-$ python brainfuck.py <filename>
+python brainfuck.py <filename>
 ```
 
 ## Instruction List
@@ -40,7 +40,6 @@ There are eight brainfuck instructions.
 | ,           | Accept one byte of input, storing its value in the byte at the data pointer.                           |
 | [           | If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command. |
 | ]           | If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching [ command. |
-
 
 ## References
 

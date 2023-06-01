@@ -189,6 +189,7 @@ def main():
             return
 
         interpret("".join(input_lines))
+        print("")
 
 
 if __name__ == "__main__":

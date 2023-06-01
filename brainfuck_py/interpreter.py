@@ -60,7 +60,7 @@ def interpret(s: str):
     bracket_map = map_brackets(s)
 
     ptr = 0  # Current cell index
-    cells = [0]  # Array that holds cell values
+    cells = [0 for i in range(100)]  # Array that holds cell values
     i = 0  # Position in brainfuck code
 
     # Main evaluation loop
@@ -107,7 +107,11 @@ def interpret(s: str):
         # The , command requests one byte of input,
         # and sets the cell indicated by the pointer to the value received, if any.
         elif c == ",":
-            cells[ptr] = ord(input())
+            try:
+                cells[ptr] = ord(input())
+            except TypeError:
+                print("Please only input a single ASCII Character")
+                return
 
         # The [ command checks the value of the cell indicated by the pointer.
         # If its value is zero, control passes not to the next command,
@@ -143,7 +147,8 @@ def repl():
     try:
         while True:
             brains = input('> ')
-            print(interpret(brains))
+            interpret(brains)
+            print("")
     except KeyboardInterrupt:
         print("\nExiting REPL ... ")
 

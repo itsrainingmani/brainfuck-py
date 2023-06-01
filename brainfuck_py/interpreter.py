@@ -7,6 +7,32 @@ MIN_VAL = 0
 commands = "+-><[].,#!"
 DEBUG = False
 
+instructions = """\
+Symbol:      >  
+Instr:       Increment the data pointer by one (to point to the next cell to the right).
+
+Symbol:      <  
+Instr:       Decrement the data pointer by one (to point to the next cell to the left).
+
+Symbol:      +  
+Instr:       Increment the byte at the data pointer by one.
+
+Symbol:      -  
+Instr:       Decrement the byte at the data pointer by one.
+
+Symbol:      .  
+Instr:       Output the byte at the data pointer.
+
+Symbol:      ,  
+Instr:       Accept one byte of input, storing its value in the byte at the data pointer.
+
+Symbol:      [  
+Instr:       If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command.
+
+Symbol:      ]  
+Instr:       If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching [ command.
+"""
+
 
 def do_brackets_match(input):
     """
@@ -147,8 +173,14 @@ def repl():
     try:
         while True:
             brains = input('> ')
-            interpret(brains)
-            print("")
+            if "help" in brains.lower():
+                print(instructions)
+            elif "exit" in brains.lower():
+                print("\nExiting REPL ... ")
+                return
+            else:
+                interpret(brains)
+                print("")
     except KeyboardInterrupt:
         print("\nExiting REPL ... ")
 
